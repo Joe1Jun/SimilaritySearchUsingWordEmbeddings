@@ -19,22 +19,13 @@ public class Menu {
 	public void start()  {
 		// loop keeps calling the showOptions method until the user selects the quit option
 		while(keepRunning) {
-		 // reads the user input parses it to an integer and stores it in the variable choice
+			//call showOptions method to display menu.
+			showOptions();
+		    // reads the user input parses it to an integer and stores it in the variable choice
 			int choice = Integer.parseInt(input.next());
-			//user switch statement on the user selection and the call methods based on that selection
-			switch(choice) {
+			//call process choice method to deal with the user input.
+			processChoice(choice);
 			
-			case 1 -> specifyEmbeddingFile();
-			case 2 -> specifyOutputFile();
-			case 3 -> enterWordOrText ();
-			case 4 -> configureOptions ();
-			case 5 -> findTopMatches ();
-			case 6 -> outputTopMatchesToFile();
-			case 7 -> printParsedWords ();
-			case 8 -> keepRunning = false;
-				
-				
-			} 
 			
 			
 		}
@@ -68,6 +59,71 @@ public class Menu {
 		System.out.println();
 		
 	}
+	
+	
+	private void processChoice( int choice) {
+		
+		//user switch statement on the user selection and the call methods based on that selection
+		switch(choice) {
+		
+		case 1 -> specifyEmbeddingFile();
+		case 2 -> specifyOutputFile();
+		case 3 -> enterWordOrText ();
+		case 4 -> configureOptions ();
+		case 5 -> findTopMatches ();
+		case 6 -> outputTopMatchesToFile();
+		case 7 -> printParsedWords ();
+		case 8 -> quit();
+		default -> System.out.println("Invalid input please select a number from 1 to 8");
+	}
+	}
+	
+	
+	private void specifyEmbeddingFile() {
+		
+		
+	}
+	
+	private void specifyOutputFile() {
+		
+		
+	}
+	
+	private void enterWordOrText() {
+		
+		
+	}
+	
+	private void configureOptions () {
+		
+		
+	}
+	
+	private void  findTopMatches () {
+		
+		
+	}
+	
+	private void outputTopMatchesToFile () {
+		
+		
+	}
+	
+	private void printParsedWords () {
+		
+		
+	}
+	
+	private void quit () {
+		
+		System.out.println("Exiting program........");
+		keepRunning = false;
+		
+	}
+	
+	
+	
+	
 	
 	
 	
