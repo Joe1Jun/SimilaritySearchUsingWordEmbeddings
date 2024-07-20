@@ -66,7 +66,7 @@ public class Menu {
 		//user switch statement on the user selection and the call methods based on that selection
 		switch(choice) {
 		
-		case 1 -> specifyEmbeddingFile();
+		case 1 -> parseFile();
 		case 2 -> specifyOutputFile();
 		case 3 -> enterWordOrText ();
 		case 4 -> configureOptions ();
@@ -79,7 +79,10 @@ public class Menu {
 	}
 	
 	
-	private void specifyEmbeddingFile() {
+	private void parseFile() {
+		
+		System.out.println("Enter the file path for the embeddings file to be parsed");
+		String filePath = input.next();
 		
 		
 	}
