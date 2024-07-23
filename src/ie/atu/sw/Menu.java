@@ -90,6 +90,7 @@ public class Menu {
 		
 		System.out.println("Enter the file path for the embeddings file to be parsed");
 		String filePath = input.next();
+		//attempt to call parseFile method with FileParser object handling an exceptions that may occur and printing the stack trace.
 		try {
 			parser.parseFile(filePath);
 		} catch (Exception e) {
@@ -99,6 +100,7 @@ public class Menu {
 		
 	}
 	
+	//method for user to input outputfile path
 	private void specifyOutputFile() {
 		
 		System.out.println("Enter the output file path");
@@ -106,6 +108,7 @@ public class Menu {
 		
 	}
 	
+	//method to enter word to compare
 	private void enterWordOrText() {
 		
 		System.out.println("Enter a word");
@@ -113,6 +116,9 @@ public class Menu {
 		
 	}
 	
+	
+	//configure options
+	//*** Add more option *******
 	private void configureOptions () {
 		
 		System.out.println("How many top matches would you like ");
@@ -120,22 +126,40 @@ public class Menu {
 		
 	}
 	
+	// Implement logic after Fileparser class is complete and 
+	// Will probably need another class to compare the words and output top matches
 	private void  findTopMatches () {
 		
 		
 		
 	}
 	
+	//Implement after 
 	private void outputTopMatchesToFile () {
 		
 		
 	}
 	
+	
 	private void printParsedWords () {
-		
+		//create array to store parsed words that are accessed by parser object that calls getWords method
+		String[] words = parser.getWords();
+		//if there are no words parsed print message
+		if (words == null) {
+			System.out.println("No words have been parsed yet.");
+			return;
+		}
+
+		System.out.println("Parsed words:");
+		//use for each loop to print each word in the words array
+		//have to initialise variable word to store and print each word during each round of the loop
+		for (String word : words) {
+			System.out.println(word);
+		}
 		
 	}
 	
+	//quit menu
 	private void quit () {
 		
 		System.out.println("Exiting program........");
