@@ -42,8 +42,8 @@ public class FileParser {
 				//store the word in the words array
 				// the word at index [0] from each line is store in the words array
 				//at the current index which increases by one each round of the loop
-				
-				words[index] = parsedWords[0];
+				//**had to remove commas so word could be compare properly and move to lowercase
+				words[index] = parsedWords[0].replace(",", "").toLowerCase();
 				
 				//for loop to populate the embeddings array
 				//there are 50 features to loop through

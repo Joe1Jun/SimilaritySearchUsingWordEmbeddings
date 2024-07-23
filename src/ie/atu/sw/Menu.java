@@ -119,15 +119,11 @@ public class Menu {
 	
 	//method to enter word to compare
 	private void enterWordOrText() {
-		
-		System.out.println("Enter a word");
-		comparisonWord = input.next();
-		
-		
-		
+	    System.out.println("Enter a word");
+	    comparisonWord = input.next().trim().toLowerCase(); // Normalize input
+	    System.out.println("Comparison word set to " + comparisonWord);
+	
 	}
-	
-	
 	//configure options
 	//*** Add more option *******
 	private void configureOptions () {
@@ -145,7 +141,7 @@ public class Menu {
 		WordComparison compare = new WordComparison(parser.getWords(), parser.getEmbeddings());
 		
 		//initialize array to that will be equal to the array returned by the findTopMatches method.
-		String [] topMatches = compare.findTopMatches(comparisonWord , numTopMatches);
+		compare.printIndex(comparisonWord);
 		
 		
 		

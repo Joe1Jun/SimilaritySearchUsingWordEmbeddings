@@ -26,34 +26,51 @@ public class WordComparison {
     
     //this method will store the topmatches in the instance variable array topMatches
     
-    public String [] findTopMatches(String word , int numTopMatches ) {
-    	
-    	int index = 0;
-    	for (int i = 0 ; i < words.length ; i++) {
-    		
-    		if(words[i].equalsIgnoreCase(word)) {
-    			
-    			index = i;
-    			break;
-    		}
-    		
-    	}//end for
-    	
-    	System.out.println("Index of word '" + word + "': " + index);
-    	
-    	
-    	
-    	
-    	
-    	return topMatches;
-    }
+//    public String [] findTopMatches(String word , int numTopMatches ) {
+//    	
+//    	
+//        System.out.println("Searching for word: " + word);
+//
+//       
+//       //set word index at -1 .If the index at i doesn't match the word the index stays at -1 which means the word is not in the list.
+//        int wordIndex= -1 ;
+//        for (int i = 0; i < words.length; i++) {
+//            if (words[i].equalsIgnoreCase(word)) {
+//                wordIndex = i;
+//                break;
+//            }
+//        }
+//
+//        System.out.println("Index of word '" + word + "': " + wordIndex);
+//
+//    	
+//    	
+//    	
+//    	
+//    	return topMatches;
+//    }
+//
+//
 
+    public void printIndex(String word) {
+    	
+    	 word = word.toLowerCase().trim();
+         System.out.println("Searching for word: " + word);
+        int wordIndex = -1;
+        for (int i = 0; i < words.length; i++) {
+            if (words[i].equals(word)) {
+                wordIndex = i;
+                break;
+            }
+            // Debug print for comparison
+//            System.out.println("Comparing '" + words[i] + "' with '" + word + "'");
+        }
 
-
+        System.out.println("Index of word '" + word + "': " + wordIndex);
 	
     
     
-    
+    }
 
 
 
