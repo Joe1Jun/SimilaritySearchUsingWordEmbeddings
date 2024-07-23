@@ -9,7 +9,7 @@ public class Menu {
 	private boolean keepRunning = true;
 	//store comparison word as an instance variable as it might be used in several methods across the class
 	private String comparisonWord = "";
-	//store outputFilePath as an instacne varibale as it may be used across multiple methods.
+	//store outputFilePath as an instance varibale as it may be used across multiple methods.
 	private String outputFilePath = "";
 	private Scanner input;
 	
@@ -111,7 +111,7 @@ public class Menu {
 	private void specifyOutputFile() {
 		
 		System.out.println("Enter the output file path");
-		String outputFilePath = input.next();
+		outputFilePath = input.next();
 		
 	}
 	
