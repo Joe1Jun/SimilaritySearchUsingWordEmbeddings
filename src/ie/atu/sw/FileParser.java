@@ -53,7 +53,7 @@ public class FileParser {
 					//this value at the index is stored along with the current feature value to populate the 2D array
 					//have to parse to double from the stored String values
 					
-					embeddings[index][i] = Double.parseDouble(parsedWords[i + 1]);
+					embeddings[index][i] = Double.parseDouble(parsedWords[i + 1].replace(",", "").trim());
 					
 				}
 						 
