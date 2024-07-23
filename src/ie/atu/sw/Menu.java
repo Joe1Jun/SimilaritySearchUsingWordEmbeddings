@@ -11,6 +11,8 @@ public class Menu {
 	private String comparisonWord = "";
 	//store outputFilePath as an instance varibale as it may be used across multiple methods.
 	private String outputFilePath = "";
+	//store the number of top matches that will be stored in the top matches array. 
+	private int numTopMatches;
 	private Scanner input;
 	
 	//initialize scanner that takes a scanner object as input
@@ -131,13 +133,19 @@ public class Menu {
 	private void configureOptions () {
 		
 		System.out.println("How many top matches would you like ");
-		int topMatches = input.nextInt();
+		numTopMatches = input.nextInt();
 		
 	}
 	
-	// Implement logic after Fileparser class is complete and 
-	// Will probably need another class to compare the words and output top matches
+	
 	private void  findTopMatches () {
+		
+		//create object of wordcomparison class and pass it the words and embeddings arrays parsed from the file.
+		
+		WordComparison compare = new WordComparison(parser.getWords(), parser.getEmbeddings());
+		
+		//initialize array to that will be equal to the array returned by the findTopMatches method.
+		String [] topMatches = compare.findTopMatches(comparisonWord , numTopMatches);
 		
 		
 		

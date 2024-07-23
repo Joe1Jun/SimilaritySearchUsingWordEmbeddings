@@ -67,6 +67,7 @@ public class FileParser {
 
 	}
 
+	//private because its only used inside the class
 	private int countLines(String filePath) throws Exception {
 		// Initialise array to store the number of lines in the file
 		int lineCount = 0;
