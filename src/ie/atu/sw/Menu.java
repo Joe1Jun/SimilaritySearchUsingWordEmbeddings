@@ -7,7 +7,10 @@ public class Menu {
 	FileParser parser = new FileParser();
 	// use boolean variable as an instance variable to be used by the class
 	private boolean keepRunning = true;
-	
+	//store comparison word as an instance variable as it might be used in several methods across the class
+	private String comparisonWord = "";
+	//store outputFilePath as an instacne varibale as it may be used across multiple methods.
+	private String outputFilePath = "";
 	private Scanner input;
 	
 	//initialize scanner that takes a scanner object as input
@@ -93,9 +96,13 @@ public class Menu {
 		//attempt to call parseFile method with FileParser object handling an exceptions that may occur and printing the stack trace.
 		try {
 			parser.parseFile(filePath);
+			//use object to obtain the number of words stored in the array 
+			System.out.println(parser.getWords().length + " words parsed" );
+			//catch block if the try block fails will print stack trace and message
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
+			System.err.println("Error parsing file: " + e.getMessage());
 		}
 		
 	}
@@ -112,7 +119,9 @@ public class Menu {
 	private void enterWordOrText() {
 		
 		System.out.println("Enter a word");
-		String comparisonWord = input.next();
+		comparisonWord = input.next();
+		
+		
 		
 	}
 	
