@@ -26,51 +26,50 @@ public class WordComparison {
     
     //this method will store the topmatches in the instance variable array topMatches
     
-//    public String [] findTopMatches(String word , int numTopMatches ) {
-//    	
-//    	
-//        System.out.println("Searching for word: " + word);
-//
-//       
-//       //set word index at -1 .If the index at i doesn't match the word the index stays at -1 which means the word is not in the list.
-//        int wordIndex= -1 ;
-//        for (int i = 0; i < words.length; i++) {
-//            if (words[i].equalsIgnoreCase(word)) {
-//                wordIndex = i;
-//                break;
-//            }
-//        }
-//
-//        System.out.println("Index of word '" + word + "': " + wordIndex);
-//
-//    	
-//    	
-//    	
-//    	
-//    	return topMatches;
-//    }
-//
-//
-
-    public void printIndex(String word) {
+    public String [] findTopMatches(String word , int numTopMatches ) {
     	
+    	//make word lower case 
     	 word = word.toLowerCase().trim();
          System.out.println("Searching for word: " + word);
+         //initialise wordIndex at -1 so we can check if the word is in the embeddings file.
         int wordIndex = -1;
+        //loop through words array to find the word entered by the user in the array and at what index.
+        //set wordIndex to the loop number.
         for (int i = 0; i < words.length; i++) {
             if (words[i].equals(word)) {
                 wordIndex = i;
                 break;
             }
-            // Debug print for comparison
-//            System.out.println("Comparing '" + words[i] + "' with '" + word + "'");
+            
         }
+        
 
         System.out.println("Index of word '" + word + "': " + wordIndex);
-	
-    
+        
+        if (wordIndex == -1) {
+            System.err.println("Word not found in embeddings.");
+            return new String[0];
+        }
+
+        //found wordIndex now must find corresponding embeddings
+        //variable to store the wordEmbedding at the index of the word entered by the user
+        double [] wordEmbedding = embeddings [wordIndex];
+        
+        
+       
+       
+
+    	
+    	
+    	    	
+    	return topMatches;   
+    	
     
     }
+
+
+
+    
 
 
 

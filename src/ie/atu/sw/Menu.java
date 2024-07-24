@@ -141,7 +141,8 @@ public class Menu {
 		WordComparison compare = new WordComparison(parser.getWords(), parser.getEmbeddings());
 		
 		//initialize array to that will be equal to the array returned by the findTopMatches method.
-		compare.printIndex(comparisonWord);
+		//because it will return an array i need to initilaize one here
+		String [] topMatches = compare.findTopMatches(comparisonWord, numTopMatches);
 		
 		
 		
