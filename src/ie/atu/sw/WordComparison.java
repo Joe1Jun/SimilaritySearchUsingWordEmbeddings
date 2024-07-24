@@ -54,6 +54,20 @@ public class WordComparison {
         //found wordIndex now must find corresponding embeddings
         //variable to store the wordEmbedding at the index of the word entered by the user
         double [] wordEmbedding = embeddings [wordIndex];
+        //array to store similarities of the size of the words length as every similarity score will be returned during the for loop;
+        double[] similarities = new double[words.length];
+        
+        //need to loop through the embeddings array and compare each embedding to the one corresponding to the user one.
+        //the values will be passed each time to the method embeddingsSimiliarity
+        for(int i = 0; i < words.length; i++) {
+        	
+        	//need to store the similairity scores in the similarities array at each index
+        	similarities[i] = embeddingsSimiliarity(wordEmbedding, embeddings [i]);
+        	
+        	
+        	
+        }
+        
         
         
        
@@ -65,6 +79,22 @@ public class WordComparison {
     	return topMatches;   
     	
     
+    }
+    
+    
+    public String [] getTopMatches() {
+    	
+    	
+    	return topMatches;
+    }
+    
+    private double embeddingsSimiliarity (double [] a , double [] b) {
+    	
+    	
+    	
+    	
+    	
+    	return 0;
     }
 
 
