@@ -12,7 +12,7 @@ public class Menu {
 	//store outputFilePath as an instance varibale as it may be used across multiple methods.
 	private String outputFilePath = "";
 	//store the number of top matches that will be stored in the top matches array. 
-	private int numTopMatches;
+	private int numTopMatches = 10;
 	private Scanner input;
 	
 	//initialize scanner that takes a scanner object as input
@@ -125,11 +125,33 @@ public class Menu {
 	
 	}
 	//configure options
+	//need to limit the number of words the user can select as top matches as to not exceed array length
 	//*** Add more option *******
 	private void configureOptions () {
 		
-		System.out.println("How many top matches would you like ");
-		numTopMatches = input.nextInt();
+		
+	
+		while(true) {
+		
+			System.out.println("How many top matches would you like ");
+			numTopMatches = input.nextInt();
+			input.nextLine();
+			
+		
+		if(numTopMatches > parser.getWords().length) {
+			
+			System.out.println("Your number of top matches selection exceeds the words parsed from the file");
+			System.out.println("Please select a lower number");
+			
+		}else {
+			
+			break;
+		}
+		
+		
+		
+		}//end while
+		System.out.println("Number of top matches set to " + numTopMatches);
 		
 	}
 	
@@ -144,7 +166,10 @@ public class Menu {
 		//because it will return an array i need to initilaize one here
 		String [] topMatches = compare.findTopMatches(comparisonWord, numTopMatches);
 		
-		
+		for(String match :topMatches) {
+			
+			System.out.println(match);
+		}
 		
 	}
 	
