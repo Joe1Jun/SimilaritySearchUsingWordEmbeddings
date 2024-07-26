@@ -13,7 +13,8 @@ public class Menu {
 	private String outputFilePath = "";
 	//store the number of top matches that will be stored in the top matches array. 
 	private int numTopMatches = 10;
-	private Scanner input;
+	//initialise scanner object
+    private Scanner input;
 	
 	//initialize scanner that takes a scanner object as input
 	public Menu(Scanner input) {
@@ -129,8 +130,15 @@ public class Menu {
 	//*** Add more option *******
 	private void configureOptions () {
 		
+		// test whether the file has been parsed or not
+		if(parser.getWords() == null || parser.getWords().length == 0) {
+			System.out.println("Please parse an embedding file first");
+		}
 		
-	
+		int maxTopMatches = parser.getWords().length;
+	    
+		
+	//while loop will run until the user selects  a valid number of top matches
 		while(true) {
 		
 			System.out.println("How many top matches would you like ");
@@ -138,15 +146,11 @@ public class Menu {
 			input.nextLine();
 			
 		
-		if(numTopMatches > parser.getWords().length) {
-			
-			System.out.println("Your number of top matches selection exceeds the words parsed from the file");
-			System.out.println("Please select a lower number");
-			
-		}else {
-			
-			break;
-		}
+			if (numTopMatches > 0 && numTopMatches <= maxTopMatches) {
+                break;
+            } else {
+                System.out.println("Invalid number. Please enter a number between 1 and " + maxTopMatches + ":");
+            }
 		
 		
 		
@@ -166,11 +170,17 @@ public class Menu {
 		//because it will return an array i need to initilaize one here
 		String [] topMatches = compare.findTopMatches(comparisonWord, numTopMatches);
 		
-		for(String match :topMatches) {
-			
-			System.out.println(match);
-		}
 		
+		
+		System.out.println("Top " + numTopMatches + " matches for '" + comparisonWord + "':");
+		//changed the for loop 
+		for (int i = 0; i < numTopMatches ; i++) {
+		      
+			System.out.println("Number " + (i + 1) + " match is : " + topMatches[i]);
+			
+			
+		}
+
 	}
 	
 	//Implement after 

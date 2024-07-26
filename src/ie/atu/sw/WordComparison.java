@@ -71,61 +71,71 @@ public class WordComparison {
 		}
 
 		// as similiarities have been returned must now calculate the highest 10 scores
-		// use a for loop to loop through similarities array
-		// will use bubble sort to sort the 
+			
 
-		/*
-		 * 
-		 * Outer Loop (i): Bubble algorithm
-		 * 
-		 * The outer loop runs from 0 to similarities.length - 1. This loop determines
-		 * the number of passes required to sort the array. After each pass, the largest
-		 * unsorted element moves to its correct position at the end of the array.
-		 * Therefore, we need one fewer pass than the number of elements because the
-		 * last element will automatically be in place after the previous passes. Inner
-		 * Loop (j):
-		 * 
-		 * The inner loop runs from 0 to similarities.length - 1 - i. This loop performs
-		 * the actual comparisons and swaps. The -1 adjustment is necessary because we
-		 * access similarities[j + 1] inside the loop. Without the -1, j + 1 would go
-		 * out of bounds on the last iteration. The - i part ensures that we don't
-		 * compare already sorted elements. With each pass, the largest unsorted element
-		 * is placed at the end, reducing the number of comparisons needed for
-		 * subsequent passes.
-		 * 
-		 */
-		for (int i = 0; i < similarities.length - 1; i++) {
-		    for (int j = 0; j < similarities.length - 1 - i; j++) {
-		        if (similarities[j] < similarities[j + 1]) {
-		            // Swap similarities
-		            double tempSim = similarities[j];
-		            similarities[j] = similarities[j + 1];
-		            similarities[j + 1] = tempSim;
-
-		            // Swap corresponding words
-		            String tempWord = words[j];
-		            words[j] = words[j + 1];
-		            words[j + 1] = tempWord;
-		        }
-		    }
-		}
-
+				/*
+				 * 
+				 * outer Loop (i): Bubble algorithm
+				 * 
+				 * the outer loop runs from 0 to similarities.length - 1. This loop determines
+				 * the number of passes required to sort the array. After each pass, the largest
+				 * unsorted element moves to its correct position at the end of the array.
+				 * Therefore, we need one fewer pass than the number of elements because the
+				 * last element will automatically be in place after the previous passes. Inner
+				 * Loop j
+				 * 
+				 * the inner loop runs from 0 to similarities.length - 1 - i. This loop performs
+				 * the actual comparisons and swaps. The -1 adjustment is necessary because we
+				 * access similarities[j + 1] inside the loop. Without the -1, j + 1 would go
+				 * out of bounds on the last iteration. The - i part ensures that we don't
+				 * compare already sorted elements. With each pass, the largest unsorted element
+				 * is placed at the end, reducing the number of comparisons needed for
+				 * subsequent passes.
+				 * 
+				 */
 		
 		
-		// Create an array to store topN words
-		topMatches = new String[numTopMatches];
-		for (int i = 0; i < topMatches.length; i++) {
-		    topMatches[i] = words[i];  // Select the most similar words
-		}
+		 
+		
+		
+		
+				for (int i = 0; i < similarities.length - 1; i++) {
+				    for (int j = 0; j < similarities.length - 1 - i; j++) {
+				    	//if similarities at j is less than at j + 1 they are swapped 
+				        if (similarities[j] < similarities[j + 1]) {
+				            // Swap similarities
+				            double tempSim = similarities[j];
+				            similarities[j] = similarities[j + 1];
+				            similarities[j + 1] = tempSim;
+
+				            // Swap corresponding words
+				            String tempWord = words[j];
+				            words[j] = words[j + 1];
+				            words[j + 1] = tempWord;
+				        }
+				    }
+				}
+
+		
+	           
+				
+				topMatches = new String[numTopMatches];
+				// Directly populate topMatches, skipping the first index
+				// as the user word will always be the at index 0 because it has the highest similarity score the prevents
+				// the user word being printed as a top match
+				// numTopMatches needs to be plus one so that the printed words is the correct number entered by the user
+				for (int i = 1; i < numTopMatches + 1; i++) {
+				    topMatches[i - 1] = words[i];
+				   
+				}
+
+			    return topMatches;
+			}
 
 
 	
 
-		return topMatches;
 		
-		
-
-	}
 
 	public String[] getTopMatches() {
 
@@ -137,9 +147,9 @@ public class WordComparison {
 	 * measure of similarity between two non-zero vectors of an inner product space
 	 * that measures the cosine of the angle between them.
 	 *
-	 * @param vecA The first vector.
-	 * @param vecB The second vector.
-	 * @return The cosine similarity between vecA and vecB.
+	 *  vecA The first vector.
+	 *  vecB The second vector.
+	 * The cosine similarity between vecA and vecB.
 	 */
 
 	private double cosineSimiliarity(double[] vecA, double[] vecB) {
