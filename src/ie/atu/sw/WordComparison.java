@@ -161,8 +161,50 @@ public class WordComparison {
 		
 		private int partition(double [] similarities, String [] words, int low, int high ) {
 			
+			// Initialise the pivot at the last index of the similarities array
+			double pivot = similarities[high];
 			
+			// Initialise the i variable at one value less than the first index
 			
+			int i = low -1;
+			
+			// Use a for loop that starts at the low value and ends at the high value.
+			for (int j = low; j < high ; j++) {
+				
+				// Check if the value of similarities at j is greater than the pivot value.
+				// Because the end array must be in descending order.
+				//  If the value is less than our pivot its ignored.
+				if(similarities[j] > pivot) 
+					// i is incremented first as it is required to be at an index in the array. 
+					//If the swap occurs before this it would trigger an out of bounds exception
+					// If the first element is greater than the pivot it will be essentially swapped with itself as i and j will be at the same index
+					i++;
+				
+				     // Initialise a double to temporarily store values to be swapped
+				    // The double takes the value of similarities at the index of i 
+				    // Example array on second pass of loop  [2.3][7.1]                              high [ 5.2]
+				    // i is incremented on second pass of loop as first pass is ignored.
+				    
+				    // temp is equal to 2.3
+				   double temp = similarities[i];
+				    // Make value of index 0 7.1.
+				    similarities[i] = similarities[j];
+				    // Swap the value back in for j so index1 now has a value of 2.3
+				    // Array at the end [7.1][2.3]                   high[5.2]
+				    similarities[j] = temp;
+				    
+				    // If the first double is greater than the pivot it will essentially be swapped with itself as both i and j will be at the same index
+					
+					
+				    //Do the same for the words at the corresponding indexes
+				    String wordTemp = words[i];
+				    words[i] = words[j];
+				    words[j] = wordTemp;
+					
+				}
+				
+				
+				
 			
 			
 			
