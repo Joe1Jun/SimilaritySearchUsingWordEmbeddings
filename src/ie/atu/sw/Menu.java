@@ -3,6 +3,8 @@ package ie.atu.sw;
 import java.util.Scanner;
 
 public class Menu {
+	// Use Wordcomparison object as instance variable
+	private WordComparison compare;
 	
 	FileParser parser = new FileParser();
 	// use boolean variable as an instance variable to be used by the class
@@ -67,7 +69,7 @@ public class Menu {
 		
 		//Output a menu of options and solicit text from the user
 		System.out.print(ConsoleColour.BLACK_BOLD_BRIGHT);
-		System.out.print("Select Option [1-?]>");
+		System.out.print("Select Option [1-8]>");
 		System.out.println();
 		
 	}
@@ -113,8 +115,10 @@ public class Menu {
 	//method for user to input outputfile path
 	private void specifyOutputFile() {
 		
-		System.out.println("Enter the output file path");
+		System.out.print("Enter the output file path: ");
 		outputFilePath = input.next();
+		System.out.println("Output file set to: " + outputFilePath);
+		
 		
 	}
 	
@@ -164,7 +168,7 @@ public class Menu {
 		
 		//create object of wordcomparison class and pass it the words and embeddings arrays parsed from the file.
 		
-		WordComparison compare = new WordComparison(parser.getWords(), parser.getEmbeddings());
+		 compare = new WordComparison(parser.getWords(), parser.getEmbeddings());
 		
 		//initialize array to that will be equal to the array returned by the findTopMatches method.
 		//because it will return an array i need to initilaize one here
@@ -186,7 +190,9 @@ public class Menu {
 	//Implement after 
 	private void outputTopMatchesToFile () {
 		
+		FileOutput fileOutput = new FileOutput(compare.getTopMatches(), comparisonWord, outputFilePath);
 		
+		fileOutput.outputToFile();
 	}
 	
 	
