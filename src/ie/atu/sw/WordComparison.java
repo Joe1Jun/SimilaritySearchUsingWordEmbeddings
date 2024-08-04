@@ -99,22 +99,26 @@ public class WordComparison {
 		
 		
 		
-				for (int i = 0; i < similarities.length - 1; i++) {
-				    for (int j = 0; j < similarities.length - 1 - i; j++) {
-				    	//if similarities at j is less than at j + 1 they are swapped 
-				        if (similarities[j] < similarities[j + 1]) {
-				            // Swap similarities
-				            double tempSim = similarities[j];
-				            similarities[j] = similarities[j + 1];
-				            similarities[j + 1] = tempSim;
-
-				            // Swap corresponding words
-				            String tempWord = words[j];
-				            words[j] = words[j + 1];
-				            words[j + 1] = tempWord;
-				        }
-				    }
-				}
+//				for (int i = 0; i < similarities.length - 1; i++) {
+//				    for (int j = 0; j < similarities.length - 1 - i; j++) {
+//				    	//if similarities at j is less than at j + 1 they are swapped 
+//				        if (similarities[j] < similarities[j + 1]) {
+//				            // Swap similarities
+//				            double tempSim = similarities[j];
+//				            similarities[j] = similarities[j + 1];
+//				            similarities[j + 1] = tempSim;
+//
+//				            // Swap corresponding words
+//				            String tempWord = words[j];
+//				            words[j] = words[j + 1];
+//				            words[j + 1] = tempWord;
+//				        }
+//				    }
+//				}
+				
+	// Pass the quick sort method the similarities and words array and also the length that will be used by the algorithm
+	// In this case 0 representing the first index in the arrays and the last index in the array.	
+		quickSort(similarities, words, 0 , similarities.length -1);				
 
 		
 	           
@@ -131,9 +135,41 @@ public class WordComparison {
 
 			    return topMatches;
 			}
-
-
 	
+	// Will use quicksort instead of bubblesort as the sorting algorithm as its time complexity is better especially for large data sets.
+
+	private void quickSort(double[] similarities, String[] words, int low, int high) {
+		
+		// Choose the last element as the pivot
+		// The pivot is the double around which the values in the array are sorted
+		// In this case what is needed is to have the values sorted in descending order in the array
+		double pivot = similarities[high]; 
+		
+		// Checks if the first index is less than the pivot 
+		if (low < high) { 
+			// Partition the array and get the pivot index
+			int pi = partition(similarities, words, low, high); 
+			
+		}
+	        
+		
+		
+		
+		
+	}
+	
+		
+		private int partition(double [] similarities, String [] words, int low, int high ) {
+			
+			
+			
+			
+			
+			
+			return 0;
+			
+			
+		}
 
 		
 
