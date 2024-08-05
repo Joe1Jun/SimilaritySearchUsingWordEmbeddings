@@ -14,6 +14,7 @@ public class Menu {
 	//store outputFilePath as an instance varibale as it may be used across multiple methods.
 	private String outputFilePath = "";
 	//store the number of top matches that will be stored in the top matches array. 
+	// Set to 10 but can be changed by the user
 	private int numTopMatches = 10;
 	//initialise scanner object
     private Scanner input;

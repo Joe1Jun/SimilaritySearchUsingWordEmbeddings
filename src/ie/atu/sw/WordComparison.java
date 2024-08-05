@@ -2,13 +2,12 @@ package ie.atu.sw;
 
 public class WordComparison {
 
-	int configure;
 	// stores the parsed words from file
 	private String[] words;
 	// stores the parsed embeddings from the files
 	private double[][] embeddings;
 	// stores the top matches after comparison.
-	private String[] topMatches = new String[configure];
+	private String[] topMatches;
 
 	// generate constructor that takes the words and embeddings arrays as fields.
 	public WordComparison(String[] words, double[][] embeddings) {
@@ -17,14 +16,13 @@ public class WordComparison {
 		this.embeddings = embeddings;
 	}
 
-	// NEED A METHOD THAT WILL FIND TOP MATCHES
 	// This method needs to take the comparison word that is passed to it.
 	// Then run a loop to find if that exists in the words array
 	// then need to find the index of this word in the array and find the associated
-	// embeddings in order to compare them
+	// Embeddings in order to compare them
 
-	// this method will store the topmatches in the instance variable array
-	// topMatches
+	// this method will store the topmatches in the instance variable array topMatches
+	
 
 	public String[] findTopMatches(String word, int numTopMatches) {
 
@@ -66,154 +64,140 @@ public class WordComparison {
 		for (int i = 0; i < words.length; i++) {
 
 			// need to store the similairity scores in the similarities array at each index
-			similarities[i] = cosineSimiliarity(wordEmbedding, embeddings[i]);
+			similarities[i] = cosineSimilarity(wordEmbedding, embeddings[i]);
 
 		}
+		
+		
+		// Manually copy the words and similarities arrays before sorting
+		// This preserves the original words array as the instance variable that doesnt change
+		// Without this modification the words array would be altered and not correspond to its embeddings .
+		// All subsequent word searches would be incorrect.
+        String[] wordsCopy = copyArray(words);
+        
+		// Pass the quick sort method the similarities and wordsCopy array and also the
+		// length that will be used by the algorithm
+		// In this case 0 representing the first index in the arrays and the last index
+		// in the array.
+        
+        quickSort(similarities, wordsCopy, 0, similarities.length - 1);
+		
+		topMatches = new String[numTopMatches];
+		// Directly populate topMatches, skipping the first index
+		// as the user word will always be the at index 0 because it has the highest
+		// similarity score the prevents
+		// the user word being printed as a top match
+		// numTopMatches needs to be plus one so that the printed words is the correct
+		// number entered by the user
+		for (int i = 0; i < numTopMatches; i++) {
+	        topMatches[i] = wordsCopy[i + 1];
+	    }
 
-		// as similiarities have been returned must now calculate the highest 10 scores
-			
+		return topMatches;
+	}
 
-				/*
-				 * 
-				 * outer Loop (i): Bubble algorithm
-				 * 
-				 * the outer loop runs from 0 to similarities.length - 1. This loop determines
-				 * the number of passes required to sort the array. After each pass, the largest
-				 * unsorted element moves to its correct position at the end of the array.
-				 * Therefore, we need one fewer pass than the number of elements because the
-				 * last element will automatically be in place after the previous passes. Inner
-				 * Loop j
-				 * 
-				 * the inner loop runs from 0 to similarities.length - 1 - i. This loop performs
-				 * the actual comparisons and swaps. The -1 adjustment is necessary because we
-				 * access similarities[j + 1] inside the loop. Without the -1, j + 1 would go
-				 * out of bounds on the last iteration. The - i part ensures that we don't
-				 * compare already sorted elements. With each pass, the largest unsorted element
-				 * is placed at the end, reducing the number of comparisons needed for
-				 * subsequent passes.
-				 * 
-				 */
-		
-		
-		 
-		
-		
-		
-//				for (int i = 0; i < similarities.length - 1; i++) {
-//				    for (int j = 0; j < similarities.length - 1 - i; j++) {
-//				    	//if similarities at j is less than at j + 1 they are swapped 
-//				        if (similarities[j] < similarities[j + 1]) {
-//				            // Swap similarities
-//				            double tempSim = similarities[j];
-//				            similarities[j] = similarities[j + 1];
-//				            similarities[j + 1] = tempSim;
-//
-//				            // Swap corresponding words
-//				            String tempWord = words[j];
-//				            words[j] = words[j + 1];
-//				            words[j + 1] = tempWord;
-//				        }
-//				    }
-//				}
-				
-	// Pass the quick sort method the similarities and words array and also the length that will be used by the algorithm
-	// In this case 0 representing the first index in the arrays and the last index in the array.	
-		quickSort(similarities, words, 0 , similarities.length -1);				
-
-		
-	           
-				
-				topMatches = new String[numTopMatches];
-				// Directly populate topMatches, skipping the first index
-				// as the user word will always be the at index 0 because it has the highest similarity score the prevents
-				// the user word being printed as a top match
-				// numTopMatches needs to be plus one so that the printed words is the correct number entered by the user
-				for (int i = 1; i < numTopMatches + 1; i++) {
-				    topMatches[i - 1] = words[i];
-				   
-				}
-
-			    return topMatches;
-			}
-	
-	// Will use quicksort instead of bubblesort as the sorting algorithm as its time complexity is better especially for large data sets.
+	// Will use quicksort instead of bubblesort as the sorting algorithm as its time
+	// complexity is better especially for large data sets.
 
 	private void quickSort(double[] similarities, String[] words, int low, int high) {
-		
-		// Choose the last element as the pivot
-		// The pivot is the double around which the values in the array are sorted
-		// In this case what is needed is to have the values sorted in descending order in the array
-		double pivot = similarities[high]; 
-		
-		// Checks if the first index is less than the pivot 
-		if (low < high) { 
-			// Partition the array and get the pivot index
-			int pi = partition(similarities, words, low, high); 
-			
-		}
-	        
-		
-		
-		
-		
-	}
-	
-		
-		private int partition(double [] similarities, String [] words, int low, int high ) {
-			
-			// Initialise the pivot at the last index of the similarities array
-			double pivot = similarities[high];
-			
-			// Initialise the i variable at one value less than the first index
-			
-			int i = low -1;
-			
-			// Use a for loop that starts at the low value and ends at the high value.
-			for (int j = low; j < high ; j++) {
-				
-				// Check if the value of similarities at j is greater than the pivot value.
-				// Because the end array must be in descending order.
-				//  If the value is less than our pivot its ignored.
-				if(similarities[j] > pivot) 
-					// i is incremented first as it is required to be at an index in the array. 
-					//If the swap occurs before this it would trigger an out of bounds exception
-					// If the first element is greater than the pivot it will be essentially swapped with itself as i and j will be at the same index
-					i++;
-				
-				     // Initialise a double to temporarily store values to be swapped
-				    // The double takes the value of similarities at the index of i 
-				    // Example array on second pass of loop  [2.3][7.1]                              high [ 5.2]
-				    // i is incremented on second pass of loop as first pass is ignored.
-				    
-				    // temp is equal to 2.3
-				   double temp = similarities[i];
-				    // Make value of index 0 7.1.
-				    similarities[i] = similarities[j];
-				    // Swap the value back in for j so index1 now has a value of 2.3
-				    // Array at the end [7.1][2.3]                   high[5.2]
-				    similarities[j] = temp;
-				    
-				    // If the first double is greater than the pivot it will essentially be swapped with itself as both i and j will be at the same index
-					
-					
-				    //Do the same for the words at the corresponding indexes
-				    String wordTemp = words[i];
-				    words[i] = words[j];
-				    words[j] = wordTemp;
-					
-				}
-				
-				
-				
-			
-			
-			
-			return 0;
-			
-			
+
+		// Checks if the first index is less than the pivot
+		if (low < high) {
+
+			// The index of the pivot is returned from the partition function
+			// This value is used to in order to pass the values of the low and high back
+			// into the quick sort function
+			// This allows the function to sort the sub array to the left of the pivot and
+			// the sub array to the right.
+			int pi = partition(similarities, words, low, high);
+
+			// Recursively sort the left subarray
+			// The high value of the left subarray is set to the index before the pivot.
+			quickSort(similarities, words, low, pi - 1);
+			// Recursively sort the right subarray
+			// The low value is set to the index after the pivot.
+			quickSort(similarities, words, pi + 1, high);
+
 		}
 
-		
+	}
+
+	private int partition(double[] similarities, String[] words, int low, int high) {
+
+		// Initialise the pivot at the last index of the similarities array
+		double pivot = similarities[high];
+
+		// Initialise the i variable at one value less than the first index
+
+		int i = low - 1;
+
+		// Use a for loop that starts at the low value and ends at the high value.
+		for (int j = low; j < high; j++) {
+
+			// Check if the value of similarities at j is greater than the pivot value.
+			// Because the end array must be in descending order.
+			// If the value is less than our pivot its ignored.
+			if (similarities[j] > pivot) {
+
+				// i is incremented first as it is required to be at an index in the array.
+				// If the swap occurs before this it would trigger an out of bounds exception
+				// If the first element is greater than the pivot it will be essentially swapped
+				// with itself as i and j will be at the same index
+				i++;
+
+				// Initialise a double to temporarily store values to be swapped
+				// The double takes the value of similarities at the index of i
+				// Example array on second pass of loop [2.3][7.1] high [ 5.2]
+				// i is incremented on second pass of loop as first pass is ignored.
+
+				// temp is equal to 2.3
+				double temp = similarities[i];
+				// Make value of index 0 7.1.
+				similarities[i] = similarities[j];
+				// Swap the value back in for j so index1 now has a value of 2.3
+				// Array at the end [7.1][2.3] high[5.2]
+				similarities[j] = temp;
+
+				// If the first double is greater than the pivot it will essentially be swapped
+				// with itself as both i and j will be at the same index
+
+				// Do the same for the words at the corresponding indexes
+				String wordTemp = words[i];
+				words[i] = words[j];
+				words[j] = wordTemp;
+
+			}
+
+		}
+
+		// Must now swap the pivot at high to its correct index.
+		// Create a temporary variable to hold the value of the index one up from the
+		// index of i. As the index of i after the loop will
+		// be the index of the last value lower than the pivot so need to increase the
+		// the index of i by one so the index is now on a value higher than the pivot.
+
+		double tempSim = similarities[i + 1];
+		// Make the value of index i + 1 the same as the value of the pivot
+		similarities[i + 1] = similarities[high];
+		// Make the last index of the array the same value as the one stored in the
+		// temporary variable.
+		// This is the same value as the original i + 1 index before the swap.
+		// Now that the pivot is in the correct position with all values to the left
+		// being higher and to the right being lower.
+
+		similarities[high] = tempSim;
+
+		// Swap words[i+1] and words[high] (or pivot)
+		String tempWord = words[i + 1];
+		words[i + 1] = words[high];
+		words[high] = tempWord;
+
+		// The index of the pivot will be passed back to the quickSort function so the
+		// sub arrays to the left and right of the pivot
+		// can be passed back into the quicksort function.
+		return i + 1;
+
+	}
 
 	public String[] getTopMatches() {
 
@@ -225,12 +209,11 @@ public class WordComparison {
 	 * measure of similarity between two non-zero vectors of an inner product space
 	 * that measures the cosine of the angle between them.
 	 *
-	 *  vecA The first vector.
-	 *  vecB The second vector.
-	 * The cosine similarity between vecA and vecB.
+	 * vecA The first vector. vecB The second vector. The cosine similarity between
+	 * vecA and vecB.
 	 */
 
-	private double cosineSimiliarity(double[] vecA, double[] vecB) {
+	private double cosineSimilarity(double[] vecA, double[] vecB) {
 
 		// Validate that the vectors have the same length
 		if (vecA.length != vecB.length) {
@@ -263,5 +246,18 @@ public class WordComparison {
 		return dotProduct / (normA * normB);
 
 	}
+	
+	
+	 // Method to manually copy a String array
+    private String[] copyArray(String[] array) {
+        String[] copy = new String[array.length];
+        for (int i = 0; i < array.length; i++) {
+            copy[i] = array[i];
+        }
+        return copy;
+    }
 
+    
 }
+
+
