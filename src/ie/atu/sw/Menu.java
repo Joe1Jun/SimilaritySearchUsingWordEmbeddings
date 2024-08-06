@@ -1,16 +1,19 @@
 package ie.atu.sw;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Menu {
 	// Use Wordcomparison object as instance variable
 	private WordComparison compare;
-	
+	private SentenceComparison sentcomp;
 	FileParser parser = new FileParser();
 	// use boolean variable as an instance variable to be used by the class
 	private boolean keepRunning = true;
 	//store comparison word as an instance variable as it might be used in several methods across the class
 	private String comparisonWord = "";
+	private String comparisonSentence = "";
 	//store outputFilePath as an instance varibale as it may be used across multiple methods.
 	private String outputFilePath = "";
 	//store the number of top matches that will be stored in the top matches array. 
@@ -36,6 +39,7 @@ public class Menu {
 			// //Attempt to call process method handling any exceptions that may occur 
 			 try {
 	                int choice = Integer.parseInt(input.next());
+	                input.nextLine(); // Consume the leftover newline
 	                processChoice(choice); }
 			//call process choice method to deal with the user input.
 	                catch (NumberFormatException e) {
@@ -60,12 +64,14 @@ public class Menu {
 		System.out.println("************************************************************");
 		System.out.println("(1) Specify Embedding File");
 		System.out.println("(2) Specify an Output File (default: ./out.txt)");
-		System.out.println("(3) Enter a Word or Text");
+		System.out.println("(3) Enter a Word to compare");
 		System.out.println("(4) Configure Options");
 		System.out.println("(5) Find Top Matches");
 		System.out.println("(6) Output top matches to a file");
 		System.out.println("(7) Print Parsed Words");
-		System.out.println("(8) Quit");
+		System.out.println("(8) Enter a sentence to compare");
+		System.out.println("(9) Find top matches for sentence");
+		System.out.println("(10) Quit");
 
 		
 		//Output a menu of options and solicit text from the user
@@ -83,16 +89,22 @@ public class Menu {
 		
 		case 1 -> parseFile();
 		case 2 -> specifyOutputFile();
-		case 3 -> enterWordOrText ();
+		case 3 -> enterWord ();
 		case 4 -> configureOptions ();
 		case 5 -> findTopMatches ();
 		case 6 -> outputTopMatchesToFile();
 		case 7 -> printParsedWords ();
-		case 8 -> quit();
-		default -> System.out.println("Invalid input please select a number from 1 to 8");
+		case 8 -> enterSentence();
+		case 9 -> topSentenceMatches();
+		case 10 -> quit();
+		default -> System.out.println("Invalid input please select a number from 1 to 10");
 	}
 	}
 	
+	
+
+	
+
 	//Most of these methods will take user input and call methods in different classes 
 	//using objects of those classes to do so 
 	private void parseFile() {
@@ -102,8 +114,8 @@ public class Menu {
 		//attempt to call parseFile method with FileParser object handling an exceptions that may occur and printing the stack trace.
 		try {
 			
-			ProgressThread progressThread = new ProgressThread();
-            progressThread.start();
+//			ProgressThread progressThread = new ProgressThread();
+//            progressThread.start();
 			
 			parser.parseFile(filePath);
 			//use object to obtain the number of words stored in the array 
@@ -128,12 +140,22 @@ public class Menu {
 	}
 	
 	//method to enter word to compare
-	private void enterWordOrText() {
+	private void enterWord() {
 	    System.out.println("Enter a word");
 	    comparisonWord = input.next().trim().toLowerCase(); // Normalize input
 	    System.out.println("Comparison word set to " + comparisonWord);
 	
 	}
+	
+	
+	private void enterSentence() {
+		
+		System.out.println("Enter a sentence");
+	    comparisonSentence = input.nextLine().toLowerCase();
+	    System.out.println("Comparison sentence set to " + comparisonSentence);
+		
+	}
+
 	//configure options
 	//need to limit the number of words the user can select as top matches as to not exceed array length
 	//*** Add more option *******
@@ -192,6 +214,15 @@ public class Menu {
 
 	}
 	
+	private void topSentenceMatches()  {
+		
+		sentcomp = new SentenceComparison(numTopMatches, parser.getWords(), parser.getEmbeddings());
+		sentcomp.findSentenceTopMatches(comparisonSentence, numTopMatches);
+	
+	}
+
+	
+	
 	//Implement after 
 	private void outputTopMatchesToFile () {
 		
@@ -229,44 +260,6 @@ public class Menu {
 	
 	
 	
-	// Inner class to handle progress bar display
-    private class ProgressThread extends Thread {
-        @Override
-        public void run() {
-            try {
-                int size = 100;
-                for (int i = 0; i < size; i++) {
-                    printProgress(i + 1, size);
-                    Thread.sleep(50);
-                }
-            } catch (InterruptedException e) {
-                // Thread was interrupted, exit gracefully
-            }
-        }
-
-        private void printProgress(int index, int total) {
-            if (index > total) return;
-            int size = 50;
-            char done = '█';
-            char todo = '░';
-
-            int complete = (100 * index) / total;
-            int completeLen = size * complete / 100;
-
-            StringBuilder sb = new StringBuilder();
-            sb.append("[");
-            for (int i = 0; i
-
-                    < size; i++) {
-                sb.append((i < completeLen) ? done : todo);
-            }
-
-            System.out.print("\r" + sb + "] " + complete + "%");
-
-            if (index == total) System.out.println("\n");
-        }
-    }
-    
 }
 	
 	
