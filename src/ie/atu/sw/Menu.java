@@ -69,7 +69,7 @@ public class Menu {
 
 		
 		//Output a menu of options and solicit text from the user
-		System.out.print(ConsoleColour.BLACK_BOLD_BRIGHT);
+		System.out.print(ConsoleColour.YELLOW);
 		System.out.print("Select Option [1-8]>");
 		System.out.println();
 		
@@ -101,6 +101,10 @@ public class Menu {
 		String filePath = input.next();
 		//attempt to call parseFile method with FileParser object handling an exceptions that may occur and printing the stack trace.
 		try {
+			
+			ProgressThread progressThread = new ProgressThread();
+            progressThread.start();
+			
 			parser.parseFile(filePath);
 			//use object to obtain the number of words stored in the array 
 			System.out.println(parser.getWords().length + " words parsed" );
@@ -225,9 +229,51 @@ public class Menu {
 	
 	
 	
-	
-	
-	
-	
-	
+	// Inner class to handle progress bar display
+    private class ProgressThread extends Thread {
+        @Override
+        public void run() {
+            try {
+                int size = 100;
+                for (int i = 0; i < size; i++) {
+                    printProgress(i + 1, size);
+                    Thread.sleep(50);
+                }
+            } catch (InterruptedException e) {
+                // Thread was interrupted, exit gracefully
+            }
+        }
+
+        private void printProgress(int index, int total) {
+            if (index > total) return;
+            int size = 50;
+            char done = '█';
+            char todo = '░';
+
+            int complete = (100 * index) / total;
+            int completeLen = size * complete / 100;
+
+            StringBuilder sb = new StringBuilder();
+            sb.append("[");
+            for (int i = 0; i
+
+                    < size; i++) {
+                sb.append((i < completeLen) ? done : todo);
+            }
+
+            System.out.print("\r" + sb + "] " + complete + "%");
+
+            if (index == total) System.out.println("\n");
+        }
+    }
+    
 }
+	
+	
+	
+	
+	
+	
+	
+	
+
