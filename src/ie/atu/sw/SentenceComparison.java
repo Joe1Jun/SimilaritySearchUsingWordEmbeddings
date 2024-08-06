@@ -25,30 +25,36 @@ public class SentenceComparison {
 		public String[] findSentenceTopMatches(String sentence, int numTopMatches) {
 			
 			
-			 processSentence(sentence);
-			
-			
-			
-			
-			
-			
-			
-			return null;
+			String[] sentenceWords = processSentence(sentence);
+		    int[] wordIndexes = new int[sentenceWords.length];
+		    
+		    for (int i = 0; i < sentenceWords.length; i++) {
+		        String word = sentenceWords[i];
+		        wordIndexes[i] = -1;  // Default value if word is not found
+		        
+		        for (int j = 0; j < words.length; j++) {
+		            if (words[j].equals(word)) {
+		                wordIndexes[i] = j;
+		                break;  // Exit the inner loop once the word is found
+		            }
+		        }
+		        
+		        System.out.println("Index of word '" + word + "': " + wordIndexes[i]);
+		    }
+
+		    return null;  // You might want to change this to return something meaningful
 		}
 		
 		
-		private  void  processSentence( String sentence)  {
+		private  String []  processSentence( String sentence)  {
 			
 			 String[] processedWords = sentence.split("\\s+");
 			    
-			    for (String word : processedWords) {
-			        System.out.println(word);
-			    }
-			}
+			    return processedWords;
 
 
 		
-		
+		}
 		
 		}
 		
