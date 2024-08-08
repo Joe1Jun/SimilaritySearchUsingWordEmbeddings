@@ -54,6 +54,10 @@ public class WordComparison {
 		// variable to store the wordEmbedding at the index of the word entered by the
 		// user
 		double[] wordEmbedding = embeddings[wordIndex];
+		for (double embedding : wordEmbedding) {
+			
+			System.out.println(embedding);
+		}
 		// array to store similarities of the size of the words length as every
 		// similarity score will be returned during the for loop;
 		double[] similarities = new double[words.length];

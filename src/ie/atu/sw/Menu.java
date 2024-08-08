@@ -17,6 +17,8 @@ public class Menu {
 	//store outputFilePath as an instance varibale as it may be used across multiple methods.
 	private String outputFilePath = "";
 	//store the number of top matches that will be stored in the top matches array. 
+	// stores number of top sentence matches;
+	private int numTopSentenceMatches = 5;
 	// Set to 10 but can be changed by the user
 	private int numTopMatches = 10;
 	//initialise scanner object
@@ -114,8 +116,7 @@ public class Menu {
 		//attempt to call parseFile method with FileParser object handling an exceptions that may occur and printing the stack trace.
 		try {
 			
-//			ProgressThread progressThread = new ProgressThread();
-//            progressThread.start();
+
 			
 			parser.parseFile(filePath);
 			//use object to obtain the number of words stored in the array 
@@ -216,7 +217,7 @@ public class Menu {
 	
 	private void topSentenceMatches()  {
 		
-		sentcomp = new SentenceComparison(numTopMatches, parser.getWords(), parser.getEmbeddings());
+		sentcomp = new SentenceComparison( parser.getWords(), parser.getEmbeddings(), numTopSentenceMatches, numTopMatches);
 		sentcomp.findSentenceTopMatches(comparisonSentence, numTopMatches);
 	
 	}
