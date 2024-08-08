@@ -219,7 +219,7 @@ public class Menu {
 		
 		compare = new WordComparison(parser.getWords(), parser.getEmbeddings());
 		
-		sentcomp = new SentenceComparison(compare, parser.getWords(), parser.getEmbeddings(), numTopSentenceMatches, numTopMatches);
+		sentcomp = new SentenceComparison(compare, numTopSentenceMatches, numTopMatches);
 		sentcomp.findSentenceTopMatches(comparisonSentence, numTopMatches);
 	
 	}

@@ -12,26 +12,20 @@ public class SentenceComparison {
 	private int numTopSentenceMatches;
 	// Number of top word matches
 	private int numTopWordMatches;
-	// stores the parsed embeddings from the files
-	private double[][] embeddings;
+	
 	// stores the parsed words from file
 	private int[] wordIndexes;
 	// Stores the top sentences created by the class
 	private String[] topSentences;
-	// Stores words parsed from embeddings file and passed via Menu class
-	private String[] words;
 	// stores the top matches after comparison.
 	private String[] sentenceWords;
-	// stores all top matches
+	// stores all top matches . 
 	private String[][] allTopMacthes;
 
 	// Passed from the menu class . However might not need to pass the words and embeddings if passing the instace of the Wordcomparison object
-	public SentenceComparison(WordComparison wordComparison, String[] words, double[][] embeddings,
-			int numTopSentenceMatches, int numTopWordMatches) {
+	public SentenceComparison(WordComparison wordComparison, int numTopSentenceMatches, int numTopWordMatches) {
 
 		this.wordComparison = wordComparison;
-		this.words = words;
-		this.embeddings = embeddings;
 		this.numTopSentenceMatches = numTopSentenceMatches;
 		this.numTopWordMatches = numTopWordMatches;
 
@@ -64,9 +58,7 @@ public class SentenceComparison {
 		// Call processSentence method to seperate the sentence into words and populate array;
 		sentenceWords = processSentence(sentence);
 
-		wordIndexes = getWordIndexes(sentenceWords);
-		
-		double wordEmbeddings [][] = getWordEmbeddings();
+		double wordEmbeddings [][] = getWordEmbeddings(sentenceWords);
 		
 		// Check if words and index are correct by printing word and associated embeddings
 		for(int i = 0; i < sentenceWords.length; i++) {
@@ -100,41 +92,18 @@ public class SentenceComparison {
 
 	}
 
-	private int[] getWordIndexes(String[] sentenceWords2) {
-
-		int[] indexofWords = new int[sentenceWords2.length];
-
-		for (int i = 0; i < indexofWords.length; i++) {
-			
-			if(wordComparison.findWordIndex(sentenceWords2[i]) == -1) {
-				
-				System.out.println("Word not found in embeddings");
-			}
-
-			indexofWords[i] = wordComparison.findWordIndex(sentenceWords2[i]);
-		}
-
-		return indexofWords;
-	}
 	
-	
-	
-	private double[][] getWordEmbeddings() {
+	private double[][] getWordEmbeddings(String [] sentenceWords) {
 		//declare the 2D array to store the wordEmbeddings associated with the embeddings
 		// make the number of rows the length of the number of workIndexes from the sentence
 		// Do not need to specify the column as this will be dynamically determined based on the actual embeddings.
 		
-	    double[][] wordEmbeddings = new double[wordIndexes.length][];
-	    for (int i = 0; i < wordIndexes.length; i++) {
-	        int wordIndex = wordIndexes[i];
-	       // Assigns this embedding vector to the corresponding row in wordEmbeddings.
-            wordEmbeddings[i] = embeddings[wordIndex];
-	        
+	    double[][] wordEmbeddings = new double[sentenceWords.length][];
+	    for(int i = 0; i < sentenceWords.length; i++) {
+	    	
+	    	wordEmbeddings[i] = wordComparison.getEmbedding(sentenceWords[i]);
+	    	
 	    }
-
-	    int numFeatures = embeddings[0].length;
-	    System.out.println("Num features is " + numFeatures);
-
 
 
 	    return wordEmbeddings;
