@@ -217,7 +217,7 @@ public class Menu {
 	
 	private void topSentenceMatches()  {
 		
-		sentcomp = new SentenceComparison( parser.getWords(), parser.getEmbeddings(), numTopSentenceMatches, numTopMatches);
+		sentcomp = new SentenceComparison(compare, parser.getWords(), parser.getEmbeddings(), numTopSentenceMatches, numTopMatches);
 		sentcomp.findSentenceTopMatches(comparisonSentence, numTopMatches);
 	
 	}

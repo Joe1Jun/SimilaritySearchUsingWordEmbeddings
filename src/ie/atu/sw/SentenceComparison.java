@@ -6,6 +6,8 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class SentenceComparison {
+	
+	private WordComparison wordComparison;
 	// Number of top matches to
 	private int numTopSentenceMatches;
 	// Number of top word matches
@@ -24,12 +26,14 @@ public class SentenceComparison {
 	private String[][] allTopMacthes;
 
 	// Passed
-	public SentenceComparison(String[] words, double[][] embeddings, int numTopSentenceMatches, int numTopWordMatches) {
-
+	public SentenceComparison(WordComparison wordComparison, String[] words, double[][] embeddings, int numTopSentenceMatches, int numTopWordMatches) {
+        
+		this.wordComparison = wordComparison;
 		this.words = words;
 		this.embeddings = embeddings;
 		this.numTopSentenceMatches = numTopSentenceMatches;
 		this.numTopWordMatches = numTopWordMatches;
+		
 
 	}
 
@@ -58,7 +62,7 @@ public class SentenceComparison {
 		// Call process
 		sentenceWords = processSentence(sentence);
 
-		wordIndexes = findWordIndexes(sentenceWords);
+		wordIndexes = ;
 
 		double[][] wordEmbeddings = findWordEmbeddings();
 
@@ -88,50 +92,7 @@ public class SentenceComparison {
 
 	}
 	
-	//Find the embeddings of the words 
-	//****MIGHT BE UNNECCESSARY AT ITS DULICATE CODE IE. USED IN WORDCOMPARISON CLASS
-
-	private double[][] findWordEmbeddings() {
-		double[][] wordEmbeddings = new double[wordIndexes.length][];
-		for (int i = 0; i < wordIndexes.length; i++) {
-			int wordIndex = wordIndexes[i];
-			wordEmbeddings[i] = embeddings[wordIndex];
-		}
-        
-		int numFeatures = embeddings[0].length;
-		System.out.println("Num features is " + numFeatures);
-
-		return wordEmbeddings;
-	}
 	
-	
-	// Finds the word indexes of the words in the sentence
-	//****MIGHT BE UNNECCESSARY AT ITS DULICATE CODE IE. USED IN WORDCOMPARISON CLASS
-
-
-	private int[] findWordIndexes(String[] sentenceWords) {
-
-		int[] wordIndexes = new int[sentenceWords.length];
-
-		for (int i = 0; i < sentenceWords.length; i++) {
-			String word = sentenceWords[i];
-			wordIndexes[i] = -1; // Default value if word is not found
-
-			for (int j = 0; j < words.length; j++) {
-				if (words[j].equals(word)) {
-					wordIndexes[i] = j;
-					break; // Exit the inner loop once the word is found
-				}
-			}
-
-			
-			// Print word to debug
-			System.out.println("Index of word '" + word + "': " + wordIndexes[i]);
-		}
-
-		return wordIndexes;
-
-	}
 
 	private String[] processSentence(String sentence) {
 
