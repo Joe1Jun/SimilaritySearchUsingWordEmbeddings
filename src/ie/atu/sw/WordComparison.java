@@ -29,35 +29,18 @@ public class WordComparison {
 		// make word lower case
 		word = word.toLowerCase().trim();
 		System.out.println("Searching for word: " + word);
-		// initialise wordIndex at -1 so we can check if the word is in the embeddings
-		// file.
-		int wordIndex = -1;
-		// loop through words array to find the word entered by the user in the array
-		// and at what index.
-		// set wordIndex to the loop number.
-		for (int i = 0; i < words.length; i++) {
-			if (words[i].equals(word)) {
-				wordIndex = i;
-				break;
-			}
-
-		}
-
+		
+		int wordIndex = findWordIndex(word);
 		System.out.println("Index of word '" + word + "': " + wordIndex);
-
+		
+       // -1 is returned from the findWordIndex method then the word is not in the embeddings file.
 		if (wordIndex == -1) {
 			System.err.println("Word not found in embeddings.");
 			return new String[0];
 		}
-
-		// found wordIndex now must find corresponding embeddings
-		// variable to store the wordEmbedding at the index of the word entered by the
-		// user
-		double[] wordEmbedding = embeddings[wordIndex];
-		for (double embedding : wordEmbedding) {
-			
-			System.out.println(embedding);
-		}
+        // found wordIndex now must find corresponding embeddings
+		// variable to store the wordEmbedding is equal to value returned from the getEmbedding method
+		double[] wordEmbedding = getEmbedding(word);
 		// array to store similarities of the size of the words length as every
 		// similarity score will be returned during the for loop;
 		double[] similarities = new double[words.length];
@@ -71,10 +54,8 @@ public class WordComparison {
 			similarities[i] = cosineSimilarity(wordEmbedding, embeddings[i]);
 
 		}
-		
-		
 		// Manually copy the words and similarities arrays before sorting
-		// This preserves the original words array as the instance variable that doesnt change
+		// This preserves the original words array as the instance variable shouldnt change
 		// Without this modification the words array would be altered and not correspond to its embeddings .
 		// All subsequent word searches would be incorrect.
         String[] wordsCopy = copyArray(words);
@@ -99,6 +80,37 @@ public class WordComparison {
 
 		return topMatches;
 	}
+	
+	
+	// Method to find the index of the word
+	 public int findWordIndex(String word) {
+		 
+		    // loop through words array to find the word entered by the user in the array
+			// and at what index.
+			// set wordIndex to the loop number.
+	        word = word.toLowerCase().trim();
+	        for (int i = 0; i < words.length; i++) {
+	            if (words[i].equalsIgnoreCase(word)) {
+	                return i;
+	            }
+	        }
+	        return -1;
+	        
+	        
+	    }
+	 
+	 // Method to find the embeddings of the word
+	 public double[] getEmbedding(String word) {
+		 // This may be duplicate code but this method may be used across multiple classes.
+	        int wordIndex = findWordIndex(word);
+	        if (wordIndex == -1) {
+	            System.err.println("Word not found in embeddings.");
+	            return new double[0];
+	        }
+	        // we return the embeddings that are found at the index of the word.
+	        return embeddings[wordIndex];
+	    }
+
 
 	// Will use quicksort instead of bubblesort as the sorting algorithm as its time
 	// complexity is better especially for large data sets.

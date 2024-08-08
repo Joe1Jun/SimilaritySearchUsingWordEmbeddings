@@ -62,19 +62,9 @@ public class SentenceComparison {
 		// Call process
 		sentenceWords = processSentence(sentence);
 
-		wordIndexes = ;
+		wordIndexes = getWordIndexes(sentenceWords);
 
-		double[][] wordEmbeddings = findWordEmbeddings();
-
-		//This loop to check if correct words have been added 
-		for (int i = 0; i < sentenceWords.length; i++) {
-			System.out.print(sentenceWords[i] + ": ");
-			for (int j = 0; j < wordEmbeddings[i].length; j++) {
-				System.out.print(wordEmbeddings[i][j]);
-			}
-			System.out.println();
-
-		}
+		
 		
 		
 		
@@ -83,6 +73,8 @@ public class SentenceComparison {
 
 		return topSentences;
 	}
+
+	
 
 	private String[] constructSentences(String[][] allTopWordMatches) {
 
@@ -100,6 +92,19 @@ public class SentenceComparison {
 
 		return processedWords;
 
+	}
+	
+	
+	private int[] getWordIndexes(String[] sentenceWords2) {
+		
+		int [] indexofWords = new int [sentenceWords2.length];
+		
+		
+		
+		
+		
+		
+		return indexofWords;
 	}
 
      // Use cosine similarity to compare all the words in the sentence one at a time
