@@ -6,16 +6,17 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class SentenceComparison {
-
+    
+	
+    
 	private WordComparison wordComparison;
 	// Number of top matches to
 	private int numTopSentenceMatches;
 	// Number of top word matches
 	private int numTopWordMatches;
-	
-	// stores the parsed words from file
-	private int[] wordIndexes;
 	// Stores the top sentences created by the class
+	private String [] words;
+	private double [ ] [] embeddings;
 	private String[] topSentences;
 	// stores the top matches after comparison.
 	private String[] sentenceWords;
@@ -23,9 +24,11 @@ public class SentenceComparison {
 	private String[][] allTopMacthes;
 
 	// Passed from the menu class . However might not need to pass the words and embeddings if passing the instace of the Wordcomparison object
-	public SentenceComparison(WordComparison wordComparison, int numTopSentenceMatches, int numTopWordMatches) {
+	public SentenceComparison(WordComparison wordComparison, String [] words, double [] [] embeddings, int numTopSentenceMatches, int numTopWordMatches) {
 
 		this.wordComparison = wordComparison;
+		this.words = words;
+		this.embeddings = embeddings;
 		this.numTopSentenceMatches = numTopSentenceMatches;
 		this.numTopWordMatches = numTopWordMatches;
 
@@ -60,6 +63,8 @@ public class SentenceComparison {
 
 		double wordEmbeddings [][] = getWordEmbeddings(sentenceWords);
 		
+		
+		
 		// Check if words and index are correct by printing word and associated embeddings
 		for(int i = 0; i < sentenceWords.length; i++) {
 			System.out.print("index of word :" + sentenceWords[i] );
@@ -70,6 +75,18 @@ public class SentenceComparison {
 			System.out.println();
 		}
 		
+		
+		double [][] similarities = similarityScores(wordEmbeddings);
+		
+		// Print similarity scores for debugging
+	    System.out.println("Similarity Scores:");
+	    for (int i = 0; i < similarities.length; i++) {
+	        System.out.println("Similarities for word '" + sentenceWords[i] + "': ");
+	        for (int j = 0; j < similarities[i].length; j++) {
+	            System.out.println(similarities[i][j] + " ");
+	        }
+	        System.out.println();
+	    }
 
 		topSentences = constructSentences(allTopMacthes);
 
@@ -91,6 +108,38 @@ public class SentenceComparison {
 		return processedWords;
 
 	}
+	
+	
+	private double[][] similarityScores(double[][] wordEmbeddings) {
+	    // Ensure words array is initialized
+	    if (words == null || words.length == 0) {
+	        throw new IllegalStateException("Words array is not initialized.");
+	    }
+
+	    // Initialize the similaritiesOfWords array
+	    double[][] similaritiesOfWords = new double[wordEmbeddings.length][words.length];
+
+	    // Iterate over each word embedding from the sentence
+	    for (int i = 0; i < wordEmbeddings.length; i++) {
+	        // Retrieve the embedding of the current sentence word
+	        double[] sentenceWordEmbedding = wordEmbeddings[i];
+
+	        // Iterate over each word in the corpus
+	        for (int j = 0; j < words.length; j++) {
+	            // Retrieve the embedding for the current word in the file
+	            double[] fileWordEmbedding = wordComparison.getEmbedding(words[j]);
+
+	            // Compute the similarity score and store it in the variable similarity
+	            double similarity = cosineSimilarity(sentenceWordEmbedding, fileWordEmbedding);
+
+	            // Store the similarity score in the array
+	            similaritiesOfWords[i][j] = similarity;
+	        }
+	    }
+
+	    return similaritiesOfWords;
+	}
+
 
 	
 	private double[][] getWordEmbeddings(String [] sentenceWords) {
