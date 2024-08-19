@@ -157,9 +157,9 @@ public class Menu {
 		
 	}
 
-	//configure options
-	//need to limit the number of words the user can select as top matches as to not exceed array length
-	//*** Add more option *******
+	// Configure options
+	// Need to limit the number of words the user can select as top matches as to not exceed array length
+	
 	private void configureOptions () {
 		
 		// test whether the file has been parsed or not
@@ -201,14 +201,14 @@ public class Menu {
 		//initialize array to that will be equal to the array returned by the findTopMatches method.
 		//because it will return an array i need to initilaize one here
 		String [] topMatches = compare.findTopMatches(comparisonWord, numTopMatches);
-		
+		 
 		
 		
 		System.out.println("Top " + numTopMatches + " matches for '" + comparisonWord + "':");
 		//changed the for loop 
 		for (int i = 0; i < numTopMatches ; i++) {
 		      
-			System.out.println("Number " + (i + 1) + " match is : " + topMatches[i]);
+			System.out.println("Number " + (i + 1) + " match is  : " + topMatches[i] + " similarity score : " + compare.getSimilarities()[i] );
 			
 			
 		}
@@ -220,7 +220,14 @@ public class Menu {
 		compare = new WordComparison(parser.getWords(), parser.getEmbeddings());
 		
 		sentcomp = new SentenceComparison(compare, parser.getWords(), parser.getEmbeddings(), numTopSentenceMatches, numTopMatches);
-		sentcomp.findSentenceTopMatches(comparisonSentence, numTopMatches);
+		String [] topSentences = sentcomp.findSentenceTopMatches(comparisonSentence, numTopMatches);
+		
+		
+		System.out.println("Top sentences for " + comparisonSentence + " is :");
+		for (String sentence : topSentences) {
+			
+			System.out.println(sentence);
+		}
 	
 	}
 
@@ -229,7 +236,7 @@ public class Menu {
 	//Implement after 
 	private void outputTopMatchesToFile () {
 		
-		FileOutput fileOutput = new FileOutput(compare.getTopMatches(), comparisonWord, outputFilePath);
+		FileOutput fileOutput = new FileOutput(compare.getTopMatches(), compare.getSimilarities(), comparisonWord, outputFilePath);
 		
 		fileOutput.outputToFile();
 	}

@@ -8,6 +8,14 @@ public class WordComparison {
 	private double[][] embeddings;
 	// stores the top matches after comparison.
 	private String[] topMatches;
+	// stores the similarity scores
+	double [] similarities;
+
+	
+
+	public void setSimilarities(double[] similarities) {
+		this.similarities = similarities;
+	}
 
 	// generate constructor that takes the words and embeddings arrays as fields.
 	public WordComparison(String[] words, double[][] embeddings) {
@@ -43,7 +51,7 @@ public class WordComparison {
 		double[] wordEmbedding = getEmbedding(word);
 		// array to store similarities of the size of the words length as every
 		// similarity score will be returned during the for loop;
-		double[] similarities = new double[words.length];
+		similarities = new double[words.length];
 
 		// need to loop through the embeddings array and compare each embedding to the
 		// one corresponding to the user one.
@@ -272,6 +280,10 @@ public class WordComparison {
         }
         return copy;
     }
+    
+    public double[] getSimilarities() {
+		return similarities;
+	}
 
     
 }
