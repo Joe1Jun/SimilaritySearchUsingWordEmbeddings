@@ -2,22 +2,17 @@ package ie.atu.sw;
 
 public class WordComparison {
 
-	// stores the parsed words from file
+	// Stores the parsed words from file
 	private String[] words;
-	// stores the parsed embeddings from the files
+	// Stores the parsed embeddings from the files
 	private double[][] embeddings;
-	// stores the top matches after comparison.
+	// Stores the top matches after comparison.
 	private String[] topMatches;
-	// stores the similarity scores
+	// Stores the similarity scores
 	double [] similarities;
 
 	
-
-	public void setSimilarities(double[] similarities) {
-		this.similarities = similarities;
-	}
-
-	// generate constructor that takes the words and embeddings arrays as fields.
+  // Generate constructor that takes the words and embeddings arrays as fields.
 	public WordComparison(String[] words, double[][] embeddings) {
 
 		this.words = words;
@@ -26,19 +21,21 @@ public class WordComparison {
 
 	// This method needs to take the comparison word that is passed to it.
 	// Then run a loop to find if that exists in the words array
-	// then need to find the index of this word in the array and find the associated
-	// Embeddings in order to compare them
-
-	// this method will store the topmatches in the instance variable array topMatches
+	// Then need to find the index of this word in the array and find the associated
+	// embeddings in order to compare them
+    // This method will store the topmatches in the instance variable array topMatches
 	
 
 	public String[] findTopMatches(String word, int numTopMatches) {
 
-		// make word lower case
+		// Make word lower case to avoid 
 		word = word.toLowerCase().trim();
 		System.out.println("Searching for word: " + word);
 		
-		int wordIndex = findWordIndex(word);
+		// Pass the words array to the class to find the word index.
+		WordIndexFinder findWordIndex = new WordIndexFinder( words);
+		// Set the wordIndex variable to the value returned from the WordIndexFinder class.
+		int wordIndex = findWordIndex.findWordIndex(word);
 		System.out.println("Index of word '" + word + "': " + wordIndex);
 		
        // -1 is returned from the findWordIndex method then the word is not in the embeddings file.
@@ -46,24 +43,16 @@ public class WordComparison {
 			System.err.println("Word not found in embeddings.");
 			return new String[0];
 		}
-        // found wordIndex now must find corresponding embeddings
-		// variable to store the wordEmbedding is equal to value returned from the getEmbedding method
+        // Found wordIndex now must find corresponding embeddings
+		// Variable to store the wordEmbedding is equal to value returned from the getEmbedding method
 		double[] wordEmbedding = getEmbedding(word);
-		// array to store similarities of the size of the words length as every
-		// similarity score will be returned during the for loop;
-		similarities = new double[words.length];
+		// Array to store similarities of the size of the words length as every
+		// Similarity score will be returned during the for loop;
+		similarities = computeSimilarities(wordEmbedding);
 
-		// need to loop through the embeddings array and compare each embedding to the
-		// one corresponding to the user one.
-		// the values will be passed each time to the method embeddingsSimiliarity
-		for (int i = 0; i < words.length; i++) {
-
-			// need to store the similairity scores in the similarities array at each index
-			similarities[i] = cosineSimilarity(wordEmbedding, embeddings[i]);
-
-		}
-		// Manually copy the words and similarities arrays before sorting
-		// This preserves the original words array as the instance variable shouldnt change
+		
+		// Manually copy the words array before sorting
+		// This preserves the original words array as the instance variable shouldn't change
 		// Without this modification the words array would be altered and not correspond to its embeddings .
 		// All subsequent word searches would be incorrect.
         String[] wordsCopy = copyArray(words);
@@ -90,22 +79,25 @@ public class WordComparison {
 	}
 	
 	
-	// Method to find the index of the word
-	 public int findWordIndex(String word) {
+	
+	 
+	 private double [] computeSimilarities( double [] wordEmbedding) {
 		 
-		    // loop through words array to find the word entered by the user in the array
-			// and at what index.
-			// set wordIndex to the loop number.
-	        word = word.toLowerCase().trim();
-	        for (int i = 0; i < words.length; i++) {
-	            if (words[i].equalsIgnoreCase(word)) {
-	                return i;
-	            }
-	        }
-	        return -1;
-	        
-	        
-	    }
+		    double[] similarities = new double[words.length];
+		    // need to loop through the embeddings array and compare each embedding to the
+			// one corresponding to the user one.
+			// the values will be passed each time to the method embeddingsSimiliarity
+			for (int i = 0; i < words.length; i++) {
+
+				// need to store the similairity scores in the similarities array at each index
+				similarities[i] = cosineSimilarity(wordEmbedding, embeddings[i]);
+
+			}
+			
+			return similarities;
+		 
+		 
+	 }
 	 
 	 // Method to find the embeddings of the word
 	 public double[] getEmbedding(String word) {
@@ -228,14 +220,13 @@ public class WordComparison {
 		return topMatches;
 	}
 
-	/**
-	 * Calculates the cosine similarity between two vectors. Cosine similarity is a
-	 * measure of similarity between two non-zero vectors of an inner product space
-	 * that measures the cosine of the angle between them.
-	 *
-	 * vecA The first vector. vecB The second vector. The cosine similarity between
-	 * vecA and vecB.
-	 */
+	
+	 //Calculates the cosine similarity between two vectors. Cosine similarity is a
+	 // measure of similarity between two non-zero vectors of an inner product space
+	 //that measures the cosine of the angle between them.
+	 // vecA The first vector. vecB The second vector. The cosine similarity between
+	 //vecA and vecB.
+	 
 
 	private double cosineSimilarity(double[] vecA, double[] vecB) {
 

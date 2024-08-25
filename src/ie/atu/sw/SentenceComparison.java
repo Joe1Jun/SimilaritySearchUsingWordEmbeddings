@@ -68,7 +68,7 @@ public class SentenceComparison {
 			double[] wordEmbedding = getWordEmbeddings(sentenceWords[i]);
 			double[] similarities = new double[words.length];
 			
-			// Manually copy the words and similarities arrays before sorting
+			// Manually copy the words  array before sorting
 			// This preserves the original words array as the instance variable shouldnt change
 			// Without this modification the words array would be altered and not correspond to its embeddings .
 			// All subsequent word searches would be incorrect.
@@ -144,36 +144,6 @@ public class SentenceComparison {
 
 		return processedWords;
 
-	}
-
-	private double[][] similarityScores(double[][] wordEmbeddings) {
-		// Ensure words array is initialized
-		if (words == null || words.length == 0) {
-			throw new IllegalStateException("Words array is not initialized.");
-		}
-
-		// Initialize the similaritiesOfWords array
-		double[][] similaritiesOfWords = new double[wordEmbeddings.length][words.length];
-
-		// Iterate over each word embedding from the sentence
-		for (int i = 0; i < wordEmbeddings.length; i++) {
-			// Retrieve the embedding of the current sentence word
-			double[] sentenceWordEmbedding = wordEmbeddings[i];
-
-			// Iterate over each word in the corpus
-			for (int j = 0; j < words.length; j++) {
-				// Retrieve the embedding for the current word in the file
-				double[] fileWordEmbedding = wordComparison.getEmbedding(words[j]);
-
-				// Compute the similarity score and store it in the variable similarity
-				double similarity = cosineSimilarity(sentenceWordEmbedding, fileWordEmbedding);
-
-				// Store the similarity score in the array
-				similaritiesOfWords[i][j] = similarity;
-			}
-		}
-
-		return similaritiesOfWords;
 	}
 
 	private void quickSort(double[] similarities, String[] words, int low, int high) {
