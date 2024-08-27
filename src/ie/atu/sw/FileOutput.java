@@ -2,7 +2,7 @@ package ie.atu.sw;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.util.Scanner;
+
 
 public class FileOutput {
 

@@ -96,5 +96,7 @@ public class FileParser {
 	public double[][] getEmbeddings() {
 		return embeddings;
 	}
+	
+	
 
 }

@@ -8,10 +8,10 @@ public class Runner {
 public static void main(String[] args) throws Exception {
 		
 	    // Create scanner object
-		Scanner scanner = new Scanner(System.in);
+	    ObjectManager objectManager = new ObjectManager();
 		
 		//Create menu object passing scanner object to it 
-        Menu menu = new Menu(scanner);
+        Menu menu = new Menu(objectManager);
         
         //Attempt to call start method from menu class handling any exceptions that may occur
         try {
