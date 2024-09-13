@@ -5,8 +5,9 @@ package ie.atu.sw;
 public class Sort {
 	
 	
-	
-	public void quickSort(double[] similarities, String[] words, int low, int high) {
+	// The boolean value passed from word comparison will be used to sort the similarities array in either ascending or descending order
+	// depending on which method the similarities were calculated.
+	public void quickSort(double[] similarities, String[] words, int low, int high, boolean ascending) {
 
 		// Checks if the first index is less than the pivot
 		if (low < high) {
@@ -16,20 +17,21 @@ public class Sort {
 			// into the quick sort function
 			// This allows the function to sort the sub array to the left of the pivot and
 			// the sub array to the right.
-			int pi = partition(similarities, words, low, high);
+			int pi = partition(similarities, words, low, high, ascending);
 
 			// Recursively sort the left subarray
 			// The high value of the left subarray is set to the index before the pivot.
-			quickSort(similarities, words, low, pi - 1);
+			quickSort(similarities, words, low, pi - 1, ascending);
 			// Recursively sort the right subarray
 			// The low value is set to the index after the pivot.
-			quickSort(similarities, words, pi + 1, high);
+			quickSort(similarities, words, pi + 1, high, ascending);
 
 		}
 
 	}
+	// All the comments here describe a descending sort. Ascending works the same just in the opposite direction.
 
-	private int partition(double[] similarities, String[] words, int low, int high) {
+	private int partition(double[] similarities, String[] words, int low, int high, boolean ascending) {
 
 		// Initialise the pivot at the last index of the similarities array
 		double pivot = similarities[high];
@@ -44,7 +46,16 @@ public class Sort {
 			// Check if the value of similarities at j is greater than the pivot value.
 			// Because the end array must be in descending order.
 			// If the value is less than our pivot its ignored.
-			if (similarities[j] > pivot) {
+			
+			//This ternary operator checks if the ascending is true or false 
+			//If false check if the value of similarities at j is greater than the pivot value.
+			// Because the end array must be in descending order.
+			// If the value is less than our pivot its ignored.
+			
+			//If true check if the value of similarities at j is less than the pivot value.
+			// Because the end array must be in ascending order.
+			// If the value is more than our pivot its ignored.
+			if (ascending ? similarities[j] < pivot : similarities[j] > pivot) {
 
 				// i is incremented first as it is required to be at an index in the array.
 				// If the swap occurs before this it would trigger an out of bounds exception
@@ -106,5 +117,9 @@ public class Sort {
 
 	}
 
+	
 
-}
+	}
+
+	
+

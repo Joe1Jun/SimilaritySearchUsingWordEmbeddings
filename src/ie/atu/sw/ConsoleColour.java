@@ -2,15 +2,8 @@ package ie.atu.sw;
 
 public enum ConsoleColour {
 	
-	/*
-	 * ANSI escape sequences are a standard for controlling cursor location, colour, 
-	 * font styling, and other options on DOS, Mac and Linux terminals. The ANSI escape 
-	 * codes are formatted as follows:
-	 * 
-	 *  	[<PREFIX>];[<COLOR>];[<TEXT DECORATION>]
-	 *  
-	 *  See https://en.wikipedia.org/wiki/ANSI_escape_code for a decent description.
-	 */
+	// This enum class holds the color values that are used in the console.
+	// These colours are utilised by the ConsoleUtils class.
 	
 		//Reset
 	    RESET						("Reset",						"0"),

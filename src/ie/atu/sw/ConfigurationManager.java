@@ -5,14 +5,14 @@ import java.util.Scanner;
 
 public class ConfigurationManager {
     private final Scanner input;
-    private final FileManager fileManager;
+   
     private FileParser parser; 
     
     private int  numTopMatches ;
 
-    public ConfigurationManager(Scanner input, FileManager fileManager, FileParser parser) {
+    public ConfigurationManager(Scanner input, FileParser parser) {
         this.input = input;
-        this.fileManager = fileManager;
+        
         this.parser = parser;
     }
 
@@ -20,12 +20,9 @@ public class ConfigurationManager {
  // Configure options
  	// Need to limit the number of words the user can select as top matches as to
  	// not exceed array length
- 	public void configureOptions() throws Exception {
+ 	public void specifyTopMatches() throws Exception {
 
- 		if (!fileManager.isFileParsed()) {
-
- 			return;
- 		}
+ 		
 
  		try {
 
@@ -64,7 +61,7 @@ public class ConfigurationManager {
  			ConsoleUtils.printError("Invalid input. Please enter a valid number.");
 
  			input.nextLine();
- 			configureOptions(); // Retry configuration
+ 			specifyTopMatches(); // Retry configuration
  		}
 
  		catch (Exception e) {
@@ -76,6 +73,7 @@ public class ConfigurationManager {
  		
  	}
 
+ 	// Get method so numTopMatches can be accessed by other classes.
 
 	public int getNumTopMatches() {
 		return numTopMatches;
